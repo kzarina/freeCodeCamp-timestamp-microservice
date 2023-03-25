@@ -29,6 +29,7 @@ app.get("/api/:input", (req, res) => {
   const isoDateRegex = /^\d{4}-\d{2}-\d{2}$/;
   if (isoDateRegex.test(input) && !isNaN(Date.parse(input))) {
     responseObject["unix"] = new Date(input).getTime();
+    responseObject["utc"] = new Date(input).toUTCString();
   }
   res.send(responseObject);
 });
