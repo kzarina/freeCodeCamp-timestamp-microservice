@@ -35,6 +35,11 @@ app.get("/api/:input", (req, res) => {
     const timestamp = parseInt(input);
     responseObject["unix"] = timestamp;
     responseObject["utc"] = new Date(timestamp).toUTCString();
+  } else {
+    const dateObj = new Date(input);
+    const isoDateString = dateObj.toISOString();
+    responseObject["unix"] = new Date(isoDateString).getTime();
+    responseObject["utc"] = new Date(isoDateString).toUTCString();
   }
   res.send(responseObject);
 });
