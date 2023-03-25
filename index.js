@@ -23,9 +23,15 @@ app.get("/api/hello", function (req, res) {
   res.json({ greeting: "hello API" });
 });
 
-// app.get("/api", (req, res) => {
-//   res.send("hello");
-// });
+const responseObject = {};
+app.get("/api/:input", (req, res) => {
+  const input = req.params.input;
+  const isoDateRegex = /^\d{4}-\d{2}-\d{2}$/;
+  if (isoDateRegex.test(input) && !isNaN(Date.parse(input))) {
+    responseObject["unix"] = new Date(input).getTime();
+  }
+  res.send(responseObject);
+});
 
 // listen for requests :)
 app.listen(port, () => {
