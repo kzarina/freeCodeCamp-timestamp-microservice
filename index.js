@@ -26,27 +26,30 @@ app.get("/api", function (req, res) {
   });
 });
 
-const responseObject = {};
+// second API endpoint...
 app.get("/api/:input", (req, res) => {
   const input = req.params.input;
   const isoDateRegex = /^\d{4}-\d{2}-\d{2}$/;
   const timestampRegex = /^\d{13}$/;
 
-  if (isoDateRegex.test(input) && !isNaN(Date.parse(input))) {
-    responseObject["unix"] = new Date(input).getTime();
-    responseObject["utc"] = new Date(input).toUTCString();
+  if (isoDateRegex.test(input)) {
+    res.json({
+      unix: new Date(input).getTime(),
+      utc: new Date(input).toUTCString(),
+    });
   } else if (timestampRegex.test(input)) {
-    const timestamp = parseInt(input);
-    responseObject["unix"] = timestamp;
-    responseObject["utc"] = new Date(timestamp).toUTCString();
+    res.json({
+      unix: new Date(parseInt(input)).getTime(),
+      utc: new Date(parseInt(input)).toUTCString(),
+    });
   } else {
     const dateObj = new Date(input);
     const isoDateString = dateObj.toISOString();
-    responseObject["unix"] = new Date(isoDateString).getTime();
-    responseObject["utc"] = new Date(isoDateString).toUTCString();
+    res.json({
+      unix: new Date(isoDateString).getTime(),
+      utc: new Date(isoDateString).toUTCString(),
+    });
   }
-
-  res.send(responseObject);
 });
 
 // listen for requests :)
