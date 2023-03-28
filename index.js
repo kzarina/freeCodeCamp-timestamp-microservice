@@ -18,9 +18,12 @@ app.get("/", function (req, res) {
   res.sendFile(__dirname + "/views/index.html");
 });
 
-// your first API endpoint...
-app.get("/api/hello", function (req, res) {
-  res.json({ greeting: "hello API" });
+// first API endpoint...
+app.get("/api", function (req, res) {
+  res.json({
+    unix: new Date().getTime(),
+    utc: new Date().toUTCString(),
+  });
 });
 
 const responseObject = {};
@@ -28,6 +31,7 @@ app.get("/api/:input", (req, res) => {
   const input = req.params.input;
   const isoDateRegex = /^\d{4}-\d{2}-\d{2}$/;
   const timestampRegex = /^\d{13}$/;
+
   if (isoDateRegex.test(input) && !isNaN(Date.parse(input))) {
     responseObject["unix"] = new Date(input).getTime();
     responseObject["utc"] = new Date(input).toUTCString();
@@ -41,6 +45,7 @@ app.get("/api/:input", (req, res) => {
     responseObject["unix"] = new Date(isoDateString).getTime();
     responseObject["utc"] = new Date(isoDateString).toUTCString();
   }
+
   res.send(responseObject);
 });
 
