@@ -27,27 +27,27 @@ app.get("/api", function (req, res) {
 });
 
 // second API endpoint...
-app.get("/api/:input", (req, res) => {
-  const input = req.params.input;
+app.get("/api/:date_string", (req, res) => {
+  const dateString = req.params.date_string;
   const isoDateRegex = /^\d{4}-\d{2}-\d{2}$/;
   const timestampRegex = /^\d{13}$/;
 
-  if (isoDateRegex.test(input)) {
+  if (isoDateRegex.test(dateString)) {
     res.json({
-      unix: new Date(input).getTime(),
-      utc: new Date(input).toUTCString(),
+      unix: new Date(dateString).getTime(),
+      utc: new Date(dateString).toUTCString(),
     });
-  } else if (timestampRegex.test(input)) {
+  } else if (timestampRegex.test(dateString)) {
     res.json({
-      unix: new Date(parseInt(input)).getTime(),
-      utc: new Date(parseInt(input)).toUTCString(),
+      unix: new Date(parseInt(dateString)).getTime(),
+      utc: new Date(parseInt(dateString)).toUTCString(),
     });
-  } else if (new Date(input).toString() === "Invalid Date") {
+  } else if (new Date(dateString).toString() === "Invalid Date") {
     res.json({
       error: "Invalid Date",
     });
   } else {
-    const dateObj = new Date(input);
+    const dateObj = new Date(dateString);
     const isoDateString = dateObj.toISOString();
     res.json({
       unix: new Date(isoDateString).getTime(),
