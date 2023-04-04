@@ -4,6 +4,8 @@ This is a simple Node.js microservice that accepts a date string as input and re
 
 ### API Endpoints
 
+---
+
 This microservice has two endpoints:
 `GET /api/:date_string`
 The date_string parameter specifies the date to convert.
@@ -15,6 +17,8 @@ The response from the API is a JSON object with two properties:
 - utc: The natural language representation of the input date.
 
 ### Usage
+
+---
 
 To use this microservice, you can run it locally by following these steps:
 
